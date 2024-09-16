@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // base: '/zoom-image/', // in case you want to deploy it to a subpath
   plugins: [vue(), VitePWA({
     registerType: 'prompt',
     injectRegister: false,
@@ -18,7 +19,7 @@ export default defineConfig({
       short_name: 'zoomImagePwa',
       description: 'zoomImagePwa',
       theme_color: '#E8E2D2',
-      display: 'fullscreen',
+      display: 'standalone',
     },
 
     workbox: {
