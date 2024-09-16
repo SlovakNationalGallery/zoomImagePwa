@@ -17,7 +17,7 @@ export default defineConfig({
       name: 'zoomImagePwa',
       short_name: 'zoomImagePwa',
       description: 'zoomImagePwa',
-      theme_color: '#000000',
+      theme_color: '#E8E2D2',
       display: 'fullscreen',
     },
 
