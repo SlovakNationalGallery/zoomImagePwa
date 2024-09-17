@@ -1,37 +1,31 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import PWABadge from "./components/PWABadge.vue";
-import { Zoompinch } from "zoompinch";
-import "zoompinch/style.css";
-const transform = ref({ x: 0, y: 0, scale: 1, rotate: 0 });
+import OpenSeaDragon from "openseadragon";
+const viewer = ref(null);
 
-function fit(animate) {
-  transform.value = { x: 0, y: 0, scale: 1, rotate: 0 };
-}
 onMounted(() => {
-  setTimeout(() => fit(true));
+  viewer.value = OpenSeaDragon({
+    id: "viewer",
+    tileSources: "https://img.webumenia.sk/zoom/?path=%2FSNGBA3%2FX13300%2FSNG--G_13269--1_1--_2015_08_13_--L2_WEB.jp2.dzi",
+    showNavigationControl: false,
+    showNavigator: false,
+    visibilityRatio: 1,
+    // constrainDuringPan: true,
+    defaultZoomLevel: 1,
+    minZoomLevel: 1,
+  });
+});
+
+onBeforeUnmount(() => {
+  if (viewer.value) {
+    viewer.value.destroy();
+  }
 });
 </script>
 
 <template>
-  <zoompinch
-    v-model:transform="transform"
-    :width="8975"
-    :height="13676"
-    :min-scale="1"
-    :max-scale="15"
-    :rotation="false"
-    :bounds="true"
-    mouse
-    touch
-    wheel
-    gesture
-  >
-    <template #canvas>
-      <img src="./assets/beef.jpg" style="width: 8975px; height: 13676px" />
-    </template>
-  </zoompinch>
-
+  <div id="viewer"></div>
   <PWABadge />
 </template>
 
@@ -44,8 +38,16 @@ body,
   height: 100%;
   width: 100%;
   overflow: hidden;
-}
-.zoompinch {
   background-color: #e8e2d2;
+}
+#viewer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
 }
 </style>
